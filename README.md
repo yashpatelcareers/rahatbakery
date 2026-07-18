@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rahat Bakery | Premium Digital Storefront
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-First, run the development server:
+A high-performance, fully responsive, and elegant digital storefront designed and engineered for **Rahat Bakers & Sweets**. Built with a strict mobile-first approach, this project serves as a modern web presence focused on ultra-premium UI/UX, lightning-fast static load times, and maintainability.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🌟 Key Features
+
+- **Michelin-Style Menu Layout:** A robust, responsive CSS Grid layout utilizing `grid-flow-dense`. It automatically counts category items and seamlessly balances them across columns to utilize horizontal desktop space efficiently while gracefully collapsing to a single column on mobile.
+- **Dynamic File-System Architecture:** The Gallery and Printed Menu components automatically scan local directories via Next.js Server Components. New assets render instantly upon being dropped into their respective folders—no code updates required.
+- **Cinematic UI/UX:** Expertly crafted visual hierarchy featuring `Playfair Display` and `Inter`, combined with subtle image lightboxes, grayscale hover transitions, and generous layout spacing.
+- **Optimized Performance:** Fully optimized asset delivery via the Next.js `<Image>` component, ensuring zero Cumulative Layout Shift (CLS) and perfect Core Web Vitals.
+
+## 🚀 Tech Stack
+
+- **Framework:** [Next.js (App Router)](https://nextjs.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Language:** TypeScript
+- **Icons:** Lucide React
+- **Data:** Local JSON (Database-free for maximum edge speed)
+
+## 📂 Architecture Overview
+
+```text
+src/
+├── app/
+│   ├── page.tsx           # Cinematic landing page
+│   ├── menu/page.tsx      # Responsive CSS Grid menu layout
+│   ├── gallery/page.tsx   # Dynamic masonry photo gallery
+│   └── about/page.tsx     # Bakery history & Google Maps integration
+├── components/
+│   ├── layout/            # Navbar & Footer
+│   └── ui/                # Reusable components (Lightboxes, Containers)
+├── data/
+│   └── menu.json          # Highly maintainable product configurations
+└── lib/
+    └── images.ts          # Server-side image mapping & fallback logic
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Local Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/rahat-bakery.git
+   cd rahat-bakery
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **View the application:**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 Design Philosophy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project was built to completely replace the standard, clunky "e-commerce catalog" feel with the luxurious experience of walking into a high-end bakery. Every margin, typographic choice, and transition was purposefully engineered to keep the focus entirely on the artisan products.
 
-## Deploy on Vercel
+## 📝 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
