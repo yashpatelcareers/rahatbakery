@@ -1,0 +1,9 @@
+[
+  { "id": "g1", "url": "https://placehold.co/800x800?text=Fresh+Breads", "alt": "Fresh Breads" },
+  { "id": "g2", "url": "https://placehold.co/600x800?text=Custom+Wedding+Cake", "alt": "Wedding Cake" },
+  { "id": "g3", "url": "https://placehold.co/800x600?text=Storefront+Interior", "alt": "Store Interior" },
+  { "id": "g4", "url": "https://placehold.co/600x600?text=Assorted+Cookies", "alt": "Cookies" },
+  { "id": "g5", "url": "https://placehold.co/600x600?text=Pastry+Selection", "alt": "Pastry" },
+  { "id": "g6", "url": "https://placehold.co/600x800?text=Our+Bakers", "alt": "Staff" },
+  { "id": "g7", "url": "https://placehold.co/600x600?text=Mithai+Display", "alt": "Mithai Display" }
+]

@@ -1,0 +1,89 @@
+{
+  "categories": [
+    {
+      "name": "Cakes",
+      "subtitle": "",
+      "items": [
+        { "name": "Whole Cakes", "price": "$26.99" },
+        { "name": "Pineapple Cake", "price": "$26.99" },
+        { "name": "Black Forest Cake", "price": "$26.99" },
+        { "name": "Chocolate Cake", "price": "$26.99" },
+        { "name": "Almond Cake (Large)", "price": "$27.00" },
+        { "name": "Almond Cake (Small)", "price": "$18.00" }
+      ],
+      "imageFile": "cakes-section.png",
+      "imageAlt": "Freshly baked cakes"
+    },
+    {
+      "name": "Pastries",
+      "subtitle": "$4.99 Each",
+      "items": [
+        { "name": "Chocolate Pastry", "price": "" },
+        { "name": "Coffee Pastry", "price": "" },
+        { "name": "Pineapple Pastry", "price": "" },
+        { "name": "Black Forest Pastry", "price": "" }
+      ],
+      "imageFile": "pastries-section.png",
+      "imageAlt": "Assorted pastries"
+    },
+    {
+      "name": "Biscuits & Cookies",
+      "subtitle": "Sold by the Pound – $16/lb",
+      "items": [
+        { "name": "Zeera Biscuits", "price": "" },
+        { "name": "Chocolate Biscuits", "price": "" },
+        { "name": "Almond Khastaye", "price": "" },
+        { "name": "Cake Rusk", "price": "" }
+      ],
+      "imageFile": "biscuits-section.png",
+      "imageAlt": "Fresh baked biscuits"
+    },
+    {
+      "name": "Traditional Mithai",
+      "subtitle": "Sold by the Pound – $13.99/lb",
+      "items": [
+        { "name": "Milk Cake", "price": "" },
+        { "name": "Kalakand", "price": "" },
+        { "name": "Almond Barfi", "price": "" },
+        { "name": "Malai Barfi", "price": "" },
+        { "name": "Dilbarfi", "price": "" },
+        { "name": "Habshi Halwa", "price": "" },
+        { "name": "Pink Rasgulla", "price": "" },
+        { "name": "Motichoor Laddu", "price": "" },
+        { "name": "Red Jalebi", "price": "" },
+        { "name": "Orange Jalebi", "price": "" },
+        { "name": "Khoa Chum Chum", "price": "" },
+        { "name": "Gulab Jamun", "price": "" },
+        { "name": "Kaju Katli", "price": "" }
+      ],
+      "imageFile": "mithai-section.png",
+      "imageAlt": "Assorted Traditional Mithai"
+    },
+    {
+      "name": "Savory Items",
+      "subtitle": "",
+      "items": [
+        { "name": "Chicken Bun", "price": "$4.99" },
+        { "name": "Chicken Patties", "price": "$3.25" },
+        { "name": "Chicken Spring Roll", "price": "$2.99" },
+        { "name": "Chicken Samosa", "price": "$1.75" },
+        { "name": "Aloo Samosa", "price": "$2.25" },
+        { "name": "Chicken Club Sandwich", "price": "$4.25" },
+        { "name": "Chicken Shashlik", "price": "$3.99" },
+        { "name": "Samosa Chat", "price": "$8.99" },
+        { "name": "Chicken Drumsticks", "price": "$3.50" }
+      ],
+      "imageFile": "savory-section.png",
+      "imageAlt": "Savory bakery items"
+    },
+    {
+      "name": "Drinks",
+      "subtitle": "",
+      "items": [
+        { "name": "Karak Chai", "price": "$2.99" }
+      ],
+      "imageFile": "drinks-section.png",
+      "imageAlt": "Karak Chai"
+    }
+  ]
+}
