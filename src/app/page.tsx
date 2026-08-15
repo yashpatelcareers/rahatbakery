@@ -62,6 +62,41 @@ export default function Home() {
         </Container>
       </section>
 
+      {/* OPENING HOURS */}
+      <section className="py-16 md:py-20 bg-background border-t border-border/20">
+        <Container>
+          <div className="max-w-2xl mx-auto text-center px-6">
+            <h2 className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-6 font-bold">Opening Hours</h2>
+            <h3 className="font-serif text-3xl md:text-4xl mb-10 text-foreground">
+              Thursday – Sunday
+            </h3>
+            
+            <div className="flex flex-col space-y-4 font-sans text-base md:text-lg text-muted-foreground font-light max-w-sm mx-auto">
+              <div className="flex justify-between items-center border-b border-border/40 pb-3">
+                <span>Thursday</span>
+                <span>1:00 PM – 9:00 PM</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-border/40 pb-3">
+                <span>Friday</span>
+                <span>1:00 PM – 10:00 PM</span>
+              </div>
+              <div className="flex justify-between items-center border-b border-border/40 pb-3">
+                <span>Saturday</span>
+                <span>1:00 PM – 10:00 PM</span>
+              </div>
+              <div className="flex justify-between items-center pb-3">
+                <span>Sunday</span>
+                <span>1:00 PM – 9:00 PM</span>
+              </div>
+            </div>
+            
+            <p className="mt-8 font-sans text-xs tracking-[0.2em] uppercase text-muted-foreground/60">
+              Monday, Tuesday, Wednesday: Closed
+            </p>
+          </div>
+        </Container>
+      </section>
+
       {/* FEATURED PRODUCTS */}
       <section className="py-24 md:py-32 bg-[#f9f7f4]">
         <Container>
