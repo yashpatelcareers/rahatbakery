@@ -28,19 +28,19 @@
     },
     {
       "name": "Biscuits & Cookies",
-      "subtitle": "Sold by the Pound – $16/lb",
+      "subtitle": "Sold by the Pound — $16.00/lb",
       "items": [
-        { "name": "Zeera Biscuits", "price": "$16/lb" },
-        { "name": "Chocolate Biscuits", "price": "$16/lb" },
-        { "name": "Almond Khastaye", "price": "$16/lb" },
-        { "name": "Cake Rusk", "price": "$16/lb" }
+        { "name": "Zeera Biscuits", "price": "$16.00/lb" },
+        { "name": "Chocolate Biscuits", "price": "$16.00/lb" },
+        { "name": "Almond Khastaye", "price": "$16.00/lb" },
+        { "name": "Cake Rusk", "price": "$16.00/lb" }
       ],
       "imageFile": "biscuits-section.png",
       "imageAlt": "Fresh baked biscuits"
     },
     {
       "name": "Traditional Mithai",
-      "subtitle": "Sold by the Pound – $13.99/lb",
+      "subtitle": "Sold by the Pound — $13.99/lb",
       "items": [
         { "name": "Milk Cake", "price": "$13.99/lb" },
         { "name": "Kalakand", "price": "$13.99/lb" },
@@ -80,10 +80,14 @@
       "name": "Drinks",
       "subtitle": "",
       "items": [
-        { "name": "Karak Chai", "price": "$2.99" }
+        { "name": "Lemon Soda", "price": "$4.00" },
+        { "name": "Iced Hibiscus Tea", "price": "$3.99" },
+        { "name": "Mango Lassi", "price": "$4.99" },
+        { "name": "Shezan Juice (Mango / Lychee)", "price": "$2.99" },
+        { "name": "Fresh Mango Juice", "price": "$3.99" }
       ],
       "imageFile": "drinks-section.png",
-      "imageAlt": "Karak Chai"
+      "imageAlt": "Refreshing drinks"
     }
   ]
 }

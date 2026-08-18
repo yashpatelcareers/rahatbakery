@@ -12,12 +12,7 @@ export const SITE_CONFIG = {
     address: "13919 Baltimore Ave Unit 4, Laurel, MD 20707"
   },
   hours: [
-    { day: "Thursday", hours: "1:00 PM – 9:00 PM" },
-    { day: "Friday", hours: "1:00 PM – 10:00 PM" },
-    { day: "Saturday", hours: "1:00 PM – 10:00 PM" },
-    { day: "Sunday", hours: "1:00 PM – 9:00 PM" },
-    { day: "Monday", hours: "Closed" },
-    { day: "Tuesday", hours: "Closed" },
-    { day: "Wednesday", hours: "Closed" }
+    { day: "Sunday – Thursday", hours: "1:00 PM – 9:00 PM" },
+    { day: "Friday – Saturday", hours: "1:00 PM – 10:00 PM" }
   ]
 };

@@ -27,3 +27,15 @@ export interface Product {
   price: number;
   imageFile: string;
 }
+
+export type GalleryCategoryKey = "all" | "bakery" | "food" | "sweets" | "videos";
+
+export interface GalleryMediaItem {
+  id: string;
+  type: "image" | "video";
+  src: string;
+  alt: string;
+  category: "bakery" | "food" | "sweets" | "videos";
+  isFeatured?: boolean;
+}
+

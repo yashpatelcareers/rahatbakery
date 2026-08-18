@@ -1,9 +1,101 @@
 [
-  { "id": "g1", "url": "https://placehold.co/800x800?text=Fresh+Breads", "alt": "Fresh Breads" },
-  { "id": "g2", "url": "https://placehold.co/600x800?text=Custom+Wedding+Cake", "alt": "Wedding Cake" },
-  { "id": "g3", "url": "https://placehold.co/800x600?text=Storefront+Interior", "alt": "Store Interior" },
-  { "id": "g4", "url": "https://placehold.co/600x600?text=Assorted+Cookies", "alt": "Cookies" },
-  { "id": "g5", "url": "https://placehold.co/600x600?text=Pastry+Selection", "alt": "Pastry" },
-  { "id": "g6", "url": "https://placehold.co/600x800?text=Our+Bakers", "alt": "Staff" },
-  { "id": "g7", "url": "https://placehold.co/600x600?text=Mithai+Display", "alt": "Mithai Display" }
+  {
+    "id": "bakery-exterior-wide",
+    "type": "image",
+    "src": "/images/gallery/gallery/gallery4.png",
+    "alt": "Rahat Bakery storefront and exterior",
+    "category": "bakery",
+    "isFeatured": true
+  },
+  {
+    "id": "bakery-lounge",
+    "type": "image",
+    "src": "/images/gallery/gallery/gallery1.png",
+    "alt": "Rahat Bakery interior lounge",
+    "category": "bakery"
+  },
+  {
+    "id": "bakery-heritage-door",
+    "type": "image",
+    "src": "/images/gallery/gallery/gallery3.png",
+    "alt": "Rahat Bakery handcrafted detail",
+    "category": "bakery"
+  },
+  {
+    "id": "bakery-daytime-entrance",
+    "type": "image",
+    "src": "/images/gallery/gallery/gallery2.png",
+    "alt": "Rahat Bakery entrance",
+    "category": "bakery"
+  },
+  {
+    "id": "food-1",
+    "type": "image",
+    "src": "/images/gallery/food items/food1.png",
+    "alt": "Rahat Bakery culinary photography",
+    "category": "food"
+  },
+  {
+    "id": "food-2",
+    "type": "image",
+    "src": "/images/gallery/food items/food2.png",
+    "alt": "Rahat Bakery culinary photography",
+    "category": "food"
+  },
+  {
+    "id": "food-3",
+    "type": "image",
+    "src": "/images/gallery/food items/food3.png",
+    "alt": "Rahat Bakery culinary photography",
+    "category": "food"
+  },
+  {
+    "id": "food-4",
+    "type": "image",
+    "src": "/images/gallery/food items/food4.png",
+    "alt": "Rahat Bakery culinary photography",
+    "category": "food"
+  },
+  {
+    "id": "food-5",
+    "type": "image",
+    "src": "/images/gallery/food items/food5.png",
+    "alt": "Rahat Bakery culinary photography",
+    "category": "food"
+  },
+  {
+    "id": "sweets-1",
+    "type": "image",
+    "src": "/images/gallery/sweet items/sweet1.png",
+    "alt": "Rahat Bakery sweets photography",
+    "category": "sweets"
+  },
+  {
+    "id": "sweets-2",
+    "type": "image",
+    "src": "/images/gallery/sweet items/sweet2.png",
+    "alt": "Rahat Bakery sweets photography",
+    "category": "sweets"
+  },
+  {
+    "id": "video-1",
+    "type": "video",
+    "src": "/images/gallery/featured videos/cakes.mp4",
+    "alt": "Rahat Bakery featured video",
+    "category": "videos"
+  },
+  {
+    "id": "video-2",
+    "type": "video",
+    "src": "/images/gallery/featured videos/cakes2.mp4",
+    "alt": "Rahat Bakery featured video",
+    "category": "videos"
+  },
+  {
+    "id": "video-3",
+    "type": "video",
+    "src": "/images/gallery/featured videos/cakes3.mp4",
+    "alt": "Rahat Bakery featured video",
+    "category": "videos"
+  }
 ]

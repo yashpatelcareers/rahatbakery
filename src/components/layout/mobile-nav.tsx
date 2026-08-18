@@ -58,14 +58,14 @@ export function MobileNav() {
       {isOpen && (
         <div
           id="mobile-navigation-menu"
-          className="fixed inset-x-0 top-32 bottom-0 z-50 bg-[#faf9f6]/98 backdrop-blur-md flex flex-col justify-start px-8 py-12 border-t border-border/40 animate-in fade-in duration-200"
+          className="fixed inset-x-0 top-32 bottom-0 z-50 bg-[#faf9f6] flex flex-col justify-center px-8 py-10 border-t border-border/40 shadow-2xl overflow-y-auto"
           onClick={closeMenu}
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation Menu"
         >
           <nav
-            className="flex flex-col space-y-7 text-center w-full max-w-xs mx-auto"
+            className="flex flex-col space-y-6 text-center w-full max-w-xs mx-auto my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {NAV_LINKS.map((link) => {
@@ -75,9 +75,9 @@ export function MobileNav() {
                   key={link.href}
                   href={link.href}
                   onClick={closeMenu}
-                  className={`text-xl py-2 font-semibold uppercase tracking-[0.2em] transition-colors ${
+                  className={`text-xl sm:text-2xl py-3 font-semibold uppercase tracking-[0.2em] transition-colors ${
                     isActive
-                      ? "text-primary font-bold border-b border-primary/40 pb-2"
+                      ? "text-primary font-bold border-b-2 border-primary pb-2"
                       : "text-foreground hover:text-primary"
                   }`}
                 >

@@ -8,7 +8,7 @@ import { LightboxImage } from "@/components/ui/lightbox-image";
 
 export const metadata: Metadata = {
   title: "Menu | Authentic South Asian Sweets, Cakes & Delicacies",
-  description: "Browse Rahat Bakery's complete menu: whole cakes, pastries, biscuits, traditional mithai, savory samosas and patties, and Karak Chai.",
+  description: "Browse Rahat Bakery's complete menu: whole cakes, pastries, biscuits, traditional mithai, savory samosas and patties, and refreshing drinks.",
 };
 
 export default function MenuPage() {
@@ -28,56 +28,77 @@ export default function MenuPage() {
             <div className="w-12 h-px bg-primary/40 mx-auto" />
           </div>
           
-          {/* Responsive CSS Grid Menu Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-x-24 lg:gap-y-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 grid-flow-dense">
+          {/* Responsive Balanced Grid Menu Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-x-20 lg:gap-y-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
             {categories.map((category) => {
-              const isLarge = category.items.length > 6;
-              // Look for section images inside the new sections folder
+              // Section images from public/images/menu/sections/
               const sectionImageUrl = getLocalImageOrPlaceholder('menu/sections', category.imageFile, category.name + " Image");
               
+              // Check if all items in category share the exact same price
+              const allItemsSamePrice = category.items.length > 0 && category.items.every(
+                (item) => item.price === category.items[0].price
+              );
+
               return (
                 <section 
                   key={category.name} 
-                  className={`scroll-mt-24 flex flex-col ${isLarge ? 'lg:col-span-2' : 'col-span-1'}`}
+                  className="scroll-mt-24 flex flex-col col-span-1"
                 >
-                  
                   {/* Category Header */}
-                  <div className="text-center mb-10">
+                  <div className="text-center mb-8">
                     <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-3 uppercase tracking-wider">
                       {category.name}
                     </h2>
                     {category.subtitle && (
-                      <p className="font-sans text-[10px] md:text-xs tracking-[0.2em] text-muted-foreground uppercase">
+                      <p className="inline-block font-sans text-xs tracking-[0.2em] text-primary uppercase font-bold px-3.5 py-1 rounded-full bg-primary/10 border border-primary/25">
                         {category.subtitle}
                       </p>
                     )}
                   </div>
                   
-                  {/* Menu Items */}
-                  <div className={`mb-12 flex-1 w-full ${isLarge ? 'columns-1 md:columns-2 gap-x-12 lg:gap-x-24' : ''}`}>
-                    {category.items.map((item, idx) => (
-                      <div key={idx} className="break-inside-avoid flex items-end w-full group mb-5">
-                        <span className="font-serif text-lg lg:text-xl text-foreground/90 whitespace-nowrap bg-[#faf9f6] pr-3 relative z-10 transition-colors group-hover:text-primary">
-                          {item.name}
-                        </span>
-                        
-                        {/* Leader dots */}
-                        <div className="flex-1 border-b border-dotted border-border/50 mx-2 relative -top-[6px] md:-top-[8px]" />
-                        
-                        <span className="font-sans text-base lg:text-lg text-muted-foreground whitespace-nowrap bg-[#faf9f6] pl-3 relative z-10">
-                          {item.price}
-                        </span>
+                  {/* Menu Items Presentation */}
+                  <div className="mb-10 flex-1 w-full">
+                    {allItemsSamePrice ? (
+                      /* Clean, customer-friendly layout for uniform price categories (no repeated price spam) */
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3.5 px-2">
+                        {category.items.map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-2.5 group">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary/60 group-hover:bg-primary transition-colors shrink-0" />
+                            <span className="font-serif text-lg text-foreground/90 group-hover:text-primary transition-colors leading-snug">
+                              {item.name}
+                            </span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    ) : (
+                      /* Individual price layout for mixed pricing categories */
+                      <div className="space-y-4">
+                        {category.items.map((item, idx) => (
+                          <div key={idx} className="break-inside-avoid flex items-baseline justify-between w-full group gap-2">
+                            <span className="font-serif text-lg lg:text-xl text-foreground/90 bg-[#faf9f6] pr-2 relative z-10 transition-colors group-hover:text-primary leading-snug">
+                              {item.name}
+                            </span>
+                            
+                            {/* Leader dots */}
+                            <div className="flex-1 border-b border-dotted border-border/50 mx-1 relative -top-[4px] md:-top-[6px] hidden sm:block" />
+                            
+                            <span className="font-sans text-base lg:text-lg text-muted-foreground shrink-0 whitespace-nowrap bg-[#faf9f6] pl-2 relative z-10 font-medium">
+                              {item.price}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Section Separator Image */}
-                  <div className={`w-full relative overflow-hidden bg-muted mt-auto ${isLarge ? 'h-48 md:h-64' : 'h-40 md:h-56'}`}>
+                  {/* Category Banner Image - Consistent 2:1 Editorial Ratio, No Cutoffs */}
+                  <div className="w-full relative aspect-[2/1] rounded-xl overflow-hidden bg-[#f4f2ed] border border-border/30 shadow-xs mt-auto">
                     <Image 
                       src={sectionImageUrl}
                       alt={category.imageAlt}
                       fill
-                      className="object-cover grayscale-[10%]"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 600px"
+                      className="object-contain"
                       unoptimized={sectionImageUrl.includes('placehold.co')}
                     />
                   </div>

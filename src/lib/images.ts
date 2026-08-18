@@ -41,14 +41,16 @@ export function getLogoImage(): string {
 }
 
 export function getGalleryImages(): { src: string; alt: string }[] {
-  const galleryDir = path.join(PUBLIC_DIR, 'images', 'gallery');
+  const gallerySubDir = path.join(PUBLIC_DIR, 'images', 'gallery', 'gallery');
+  const galleryDir = fs.existsSync(gallerySubDir) ? gallerySubDir : path.join(PUBLIC_DIR, 'images', 'gallery');
   if (!fs.existsSync(galleryDir)) return [];
   
   const files = fs.readdirSync(galleryDir);
+  const prefix = fs.existsSync(gallerySubDir) ? '/images/gallery/gallery' : '/images/gallery';
   return files
     .filter(file => /\.(jpg|jpeg|png|webp)$/i.test(file))
     .map(file => ({
-      src: `/images/gallery/${file}`,
+      src: `${prefix}/${file}`,
       alt: `Rahat Bakery - ${file.replace(/\.[^/.]+$/, "")}`
     }));
 }
