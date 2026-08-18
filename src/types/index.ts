@@ -1,6 +1,6 @@
 /**
  * Strong TypeScript Data Models for Rahat Bakery
- * Centralized type definitions for menu items, gallery media, and site configuration.
+ * Centralized type definitions for menu items, gallery media, site configuration, and Google Reviews.
  */
 
 export interface MenuItem {
@@ -66,4 +66,26 @@ export interface SiteConfig {
     address: string;
   };
   hours: BusinessHour[];
+}
+
+/** Individual Google Review item structure */
+export interface GoogleReviewItem {
+  id: string;
+  authorName: string;
+  authorPhotoUri?: string;
+  authorProfileUri?: string;
+  rating: number;
+  text: string;
+  relativeTime: string;
+  googleMapsUri?: string;
+}
+
+/** Aggregated Google Reviews response data */
+export interface GoogleReviewsData {
+  placeName?: string;
+  rating: number;
+  userRatingCount: number;
+  reviews: GoogleReviewItem[];
+  googleMapsUri?: string;
+  isConfigured: boolean;
 }

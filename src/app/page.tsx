@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { SITE_CONFIG } from "@/lib/constants";
 import { getHeroImage } from "@/lib/images";
+import { getGoogleReviews } from "@/lib/server/google-reviews";
+import { GoogleReviewsSection } from "@/components/home/google-reviews-section";
 
 const PROMOTIONAL_ITEMS = [
   {
@@ -35,8 +37,9 @@ const PROMOTIONAL_ITEMS = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
   const heroImage = getHeroImage();
+  const reviewsData = await getGoogleReviews();
 
   return (
     <main className="flex-1 flex flex-col">
@@ -184,6 +187,9 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      {/* GOOGLE REVIEWS SECTION */}
+      <GoogleReviewsSection initialData={reviewsData} />
     </main>
   );
 }
