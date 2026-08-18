@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { SITE_CONFIG } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Our Story & Heritage",
+  description: "Learn about the heritage of Rahat Bakery since 1950, our traditional South Asian recipes, and our bakery in Laurel, MD.",
+};
 
 export default function AboutPage() {
   return (
@@ -7,7 +13,7 @@ export default function AboutPage() {
       {/* Header */}
       <section className="py-24 md:py-32 bg-secondary text-secondary-foreground text-center px-6">
         <Container>
-          <h2 className="font-sans text-xs tracking-[0.4em] uppercase text-primary mb-8 font-bold">Who We Are</h2>
+          <p className="font-sans text-xs tracking-[0.4em] uppercase text-primary mb-8 font-bold">Who We Are</p>
           <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl mb-10 tracking-tight">Our Story</h1>
         </Container>
       </section>
@@ -65,9 +71,14 @@ export default function AboutPage() {
 
                 <div>
                   <h3 className="font-sans text-[10px] tracking-[0.3em] uppercase text-primary mb-4 font-bold">Social</h3>
-                  <a href={SITE_CONFIG.social.instagram} target="_blank" rel="noopener noreferrer" className="inline-block font-light text-lg text-foreground/80 hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1">
-                    Follow us on Instagram
-                  </a>
+                  <div className="flex flex-col space-y-2">
+                    <a href={SITE_CONFIG.social.instagram} target="_blank" rel="noopener noreferrer" className="inline-block font-light text-lg text-foreground/80 hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1 w-fit">
+                      Follow us on Instagram
+                    </a>
+                    <a href={SITE_CONFIG.social.tiktok} target="_blank" rel="noopener noreferrer" className="inline-block font-light text-lg text-foreground/80 hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1 w-fit">
+                      Follow us on TikTok
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

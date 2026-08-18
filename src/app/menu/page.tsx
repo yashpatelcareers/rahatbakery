@@ -1,11 +1,18 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
-import menuData from "@/data/menu.json";
+import menuJson from "@/data/menu.json";
+import type { MenuData } from "@/types";
 import { getLocalImageOrPlaceholder, getPrintedMenuImages } from "@/lib/images";
 import { LightboxImage } from "@/components/ui/lightbox-image";
 
+export const metadata: Metadata = {
+  title: "Menu | Authentic South Asian Sweets, Cakes & Delicacies",
+  description: "Browse Rahat Bakery's complete menu: whole cakes, pastries, biscuits, traditional mithai, savory samosas and patties, and Karak Chai.",
+};
+
 export default function MenuPage() {
-  const { categories } = menuData;
+  const { categories }: MenuData = menuJson as MenuData;
   const printedMenuImages = getPrintedMenuImages();
 
   return (
@@ -14,7 +21,7 @@ export default function MenuPage() {
         <Container>
           {/* Header */}
           <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24 px-6">
-            <h2 className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary mb-4 font-bold">Our Menu</h2>
+            <p className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary mb-4 font-bold">Our Menu</p>
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl mb-8 text-foreground tracking-tight">
               A Taste of Pakistan
             </h1>
@@ -81,8 +88,8 @@ export default function MenuPage() {
 
           {/* Complete Printed Menu Section */}
           <div className="mt-24 md:mt-32 max-w-6xl mx-auto text-center px-6">
-            <h2 className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary mb-4 font-bold">Download or View</h2>
-            <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-12">Complete Menu</h3>
+            <p className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary mb-4 font-bold">Download or View</p>
+            <h2 className="font-serif text-3xl md:text-4xl text-foreground mb-12">Complete Menu</h2>
             
             <div className={`grid gap-8 justify-center mx-auto ${printedMenuImages.length > 1 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 max-w-xl'}`}>
               {printedMenuImages.map((img, i) => (

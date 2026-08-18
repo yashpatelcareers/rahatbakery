@@ -18,10 +18,10 @@
       "name": "Pastries",
       "subtitle": "$4.99 Each",
       "items": [
-        { "name": "Chocolate Pastry", "price": "" },
-        { "name": "Coffee Pastry", "price": "" },
-        { "name": "Pineapple Pastry", "price": "" },
-        { "name": "Black Forest Pastry", "price": "" }
+        { "name": "Chocolate Pastry", "price": "$4.99" },
+        { "name": "Coffee Pastry", "price": "$4.99" },
+        { "name": "Pineapple Pastry", "price": "$4.99" },
+        { "name": "Black Forest Pastry", "price": "$4.99" }
       ],
       "imageFile": "pastries-section.png",
       "imageAlt": "Assorted pastries"
@@ -30,10 +30,10 @@
       "name": "Biscuits & Cookies",
       "subtitle": "Sold by the Pound – $16/lb",
       "items": [
-        { "name": "Zeera Biscuits", "price": "" },
-        { "name": "Chocolate Biscuits", "price": "" },
-        { "name": "Almond Khastaye", "price": "" },
-        { "name": "Cake Rusk", "price": "" }
+        { "name": "Zeera Biscuits", "price": "$16/lb" },
+        { "name": "Chocolate Biscuits", "price": "$16/lb" },
+        { "name": "Almond Khastaye", "price": "$16/lb" },
+        { "name": "Cake Rusk", "price": "$16/lb" }
       ],
       "imageFile": "biscuits-section.png",
       "imageAlt": "Fresh baked biscuits"
@@ -42,19 +42,19 @@
       "name": "Traditional Mithai",
       "subtitle": "Sold by the Pound – $13.99/lb",
       "items": [
-        { "name": "Milk Cake", "price": "" },
-        { "name": "Kalakand", "price": "" },
-        { "name": "Almond Barfi", "price": "" },
-        { "name": "Malai Barfi", "price": "" },
-        { "name": "Dilbarfi", "price": "" },
-        { "name": "Habshi Halwa", "price": "" },
-        { "name": "Pink Rasgulla", "price": "" },
-        { "name": "Motichoor Laddu", "price": "" },
-        { "name": "Red Jalebi", "price": "" },
-        { "name": "Orange Jalebi", "price": "" },
-        { "name": "Khoa Chum Chum", "price": "" },
-        { "name": "Gulab Jamun", "price": "" },
-        { "name": "Kaju Katli", "price": "" }
+        { "name": "Milk Cake", "price": "$13.99/lb" },
+        { "name": "Kalakand", "price": "$13.99/lb" },
+        { "name": "Almond Barfi", "price": "$13.99/lb" },
+        { "name": "Malai Barfi", "price": "$13.99/lb" },
+        { "name": "Dilbarfi", "price": "$13.99/lb" },
+        { "name": "Habshi Halwa", "price": "$13.99/lb" },
+        { "name": "Pink Rasgulla", "price": "$13.99/lb" },
+        { "name": "Motichoor Laddu", "price": "$13.99/lb" },
+        { "name": "Red Jalebi", "price": "$13.99/lb" },
+        { "name": "Orange Jalebi", "price": "$13.99/lb" },
+        { "name": "Khoa Chum Chum", "price": "$13.99/lb" },
+        { "name": "Gulab Jamun", "price": "$13.99/lb" },
+        { "name": "Kaju Katli", "price": "$13.99/lb" }
       ],
       "imageFile": "mithai-section.png",
       "imageAlt": "Assorted Traditional Mithai"

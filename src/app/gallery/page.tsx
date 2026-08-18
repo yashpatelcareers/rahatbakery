@@ -1,41 +1,65 @@
-import Image from "next/image";
+import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
-import { getGalleryImages } from "@/lib/images";
+import { GalleryGrid, type GalleryItem } from "@/components/gallery/gallery-grid";
+
+export const metadata: Metadata = {
+  title: "Gallery | A Glimpse Inside Rahat Bakery",
+  description: "Explore photos of the storefront, atmosphere, and authentic South Asian sweets and bakery delicacies at Rahat Bakery in Laurel, MD.",
+};
+
+const GALLERY_ITEMS: GalleryItem[] = [
+  {
+    id: "storefront-wide",
+    src: "/images/gallery/gallery4.png",
+    alt: "Rahat Bakery illuminated storefront and exterior in Laurel, MD",
+    title: "Storefront & Evening Atmosphere",
+    category: "Bakery & Storefront",
+    isFeatured: true,
+  },
+  {
+    id: "interior-lounge",
+    src: "/images/gallery/gallery1.png",
+    alt: "Rahat Bakery interior lounge seating and signature yellow-tile brand wall",
+    title: "Bakery Lounge & Atmosphere",
+    category: "Interior & Atmosphere",
+  },
+  {
+    id: "halal-heritage",
+    src: "/images/gallery/gallery3.png",
+    alt: "Rahat Bakery Halal certified door detail and traditional brass urn",
+    title: "Handcrafted & Halal Heritage",
+    category: "Bakery Detail",
+  },
+  {
+    id: "storefront-entrance",
+    src: "/images/gallery/gallery2.png",
+    alt: "Rahat Bakery daytime storefront entrance and awning",
+    title: "Storefront & Entrance",
+    category: "Exterior View",
+  },
+];
 
 export default function GalleryPage() {
-  const galleryImages = getGalleryImages();
-
   return (
-    <main className="flex-1 bg-background">
-      <section className="py-24 md:py-32">
+    <main className="flex-1 bg-[#faf9f6]">
+      <section className="py-20 md:py-28">
         <Container>
-          <div className="max-w-3xl mx-auto text-center mb-24 px-6">
-            <h2 className="font-sans text-xs tracking-[0.4em] uppercase text-primary mb-6 font-bold">Atmosphere</h2>
-            <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl mb-10 text-foreground tracking-tight">Gallery</h1>
-            <p className="text-muted-foreground font-light text-xl tracking-wide leading-relaxed">
-              A glimpse into our daily craft, authentic techniques, and the passion that goes into every single bite.
+          {/* Header */}
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20 px-6">
+            <p className="font-sans text-[10px] md:text-xs tracking-[0.4em] uppercase text-primary mb-4 font-bold">
+              Atmosphere
             </p>
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl mb-6 text-foreground tracking-tight uppercase">
+              Gallery
+            </h1>
+            <p className="text-muted-foreground font-light text-lg md:text-xl tracking-wide">
+              A glimpse inside Rahat Bakery.
+            </p>
+            <div className="w-12 h-px bg-primary/40 mx-auto mt-8" />
           </div>
-          
-          {galleryImages.length === 0 ? (
-            <div className="text-center py-20 text-muted-foreground bg-muted rounded-xl">
-              <p>No gallery images found.</p>
-              <p className="text-sm mt-2">Please upload images to <code className="bg-background px-2 py-1 rounded">public/images/gallery</code></p>
-            </div>
-          ) : (
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8 px-6 lg:px-0 max-w-7xl mx-auto">
-              {galleryImages.map((image, i) => (
-                <div key={i} className="break-inside-avoid relative overflow-hidden bg-muted group cursor-pointer aspect-square">
-                  <Image 
-                    src={image.src} 
-                    alt={image.alt}
-                    fill 
-                    className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-[1.5s] ease-out group-hover:scale-105"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+
+          {/* Curated Storytelling Gallery Grid */}
+          <GalleryGrid items={GALLERY_ITEMS} />
         </Container>
       </section>
     </main>

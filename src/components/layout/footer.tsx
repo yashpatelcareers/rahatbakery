@@ -31,9 +31,13 @@ export function Footer() {
           <address className="not-italic text-sm text-secondary-foreground/80 space-y-3 font-light leading-relaxed">
             <p className="max-w-[200px]">{SITE_CONFIG.contact.address}</p>
             <p className="pt-2">T: {SITE_CONFIG.contact.phone}</p>
-            <div className="pt-6 flex gap-4 justify-center md:justify-start w-full">
+            <div className="pt-6 flex items-center gap-4 justify-center md:justify-start w-full">
               <a href={SITE_CONFIG.social.instagram} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors uppercase tracking-widest text-xs font-semibold border-b border-primary/30 hover:border-white pb-1">
                 Instagram
+              </a>
+              <span className="text-secondary-foreground/30">•</span>
+              <a href={SITE_CONFIG.social.tiktok} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors uppercase tracking-widest text-xs font-semibold border-b border-primary/30 hover:border-white pb-1">
+                TikTok
               </a>
             </div>
           </address>

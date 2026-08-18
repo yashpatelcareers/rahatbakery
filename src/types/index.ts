@@ -1,6 +1,23 @@
-export interface Category {
-  id: string;
+/**
+ * Strong TypeScript Data Models for Rahat Bakery
+ */
+
+export interface MenuItem {
   name: string;
+  price: string; // Supports fixed prices ("$26.99") and unit prices ("$16/lb", "$13.99/lb")
+  description?: string;
+}
+
+export interface MenuCategory {
+  name: string;
+  subtitle?: string;
+  imageFile: string;
+  imageAlt: string;
+  items: MenuItem[];
+}
+
+export interface MenuData {
+  categories: MenuCategory[];
 }
 
 export interface Product {

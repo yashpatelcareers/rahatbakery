@@ -2,11 +2,76 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { SITE_CONFIG } from "@/lib/constants";
-import menuData from "@/data/products.json";
-import { getHeroImage, getLocalImageOrPlaceholder } from "@/lib/images";
+import { getHeroImage } from "@/lib/images";
+
+const FEATURED_CATEGORIES = [
+  {
+    title: "Cakes",
+    subtitle: "Custom & Whole Cakes",
+    image: "/images/menu/sections/cakes-section.png",
+    alt: "Rahat Bakery freshly baked custom cakes",
+    href: "/menu",
+  },
+  {
+    title: "Pastries",
+    subtitle: "Individual Fresh Pastries",
+    image: "/images/menu/sections/pastries-section.png",
+    alt: "Rahat Bakery assorted sweet pastries",
+    href: "/menu",
+  },
+  {
+    title: "Savory Items",
+    subtitle: "Patties, Rolls & Samosas",
+    image: "/images/menu/sections/savory-section.png",
+    alt: "Rahat Bakery freshly baked savory items",
+    href: "/menu",
+  },
+  {
+    title: "Traditional Mithai",
+    subtitle: "Authentic South Asian Sweets",
+    image: "/images/menu/sections/mithai-section.png",
+    alt: "Rahat Bakery authentic traditional mithai sweets",
+    href: "/menu",
+  },
+];
+
+function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
+
+function TikTokIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  );
+}
 
 export default function Home() {
-  const featuredProducts = menuData.products.slice(0, 4);
   const heroImage = getHeroImage();
 
   return (
@@ -29,9 +94,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20 z-10" />
         
         <Container className="relative z-20 text-center text-white flex flex-col items-center px-6">
-          <h2 className="font-sans text-xs tracking-[0.4em] uppercase text-primary mb-8 font-bold drop-shadow-lg">
+          <p className="font-sans text-xs tracking-[0.4em] uppercase text-primary mb-8 font-bold drop-shadow-lg">
             EST. IN LAUREL, MD
-          </h2>
+          </p>
           <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-bold tracking-wider mb-8 drop-shadow-2xl uppercase">
             {SITE_CONFIG.name}
           </h1>
@@ -51,10 +116,10 @@ export default function Home() {
       <section className="py-24 md:py-32 bg-background">
         <Container>
           <div className="max-w-3xl mx-auto text-center px-6">
-            <h2 className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-8 font-bold">The Tradition</h2>
-            <h3 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-12 text-foreground leading-[1.1] tracking-tight">
+            <p className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-8 font-bold">The Tradition</p>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-12 text-foreground leading-[1.1] tracking-tight">
               A Legacy of Pure Taste
-            </h3>
+            </h2>
             <p className="text-lg md:text-xl text-muted-foreground leading-loose font-light">
               Located in the heart of Laurel, Maryland, {SITE_CONFIG.name} brings you the authentic taste of traditional South Asian sweets alongside freshly baked breads, pastries, and custom cakes. Every item is crafted with passion, honoring time-tested recipes that have brought families together for generations.
             </p>
@@ -63,79 +128,144 @@ export default function Home() {
       </section>
 
       {/* OPENING HOURS */}
-      <section className="py-16 md:py-20 bg-background border-t border-border/20">
+      <section className="py-20 md:py-28 bg-background border-t border-border/20">
         <Container>
           <div className="max-w-2xl mx-auto text-center px-6">
-            <h2 className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-6 font-bold">Opening Hours</h2>
-            <h3 className="font-serif text-3xl md:text-4xl mb-10 text-foreground">
-              Thursday – Sunday
-            </h3>
+            <p className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-6 font-bold">Plan Your Visit</p>
+            <h2 className="font-serif text-3xl md:text-5xl mb-12 text-foreground">
+              Opening Hours
+            </h2>
             
             <div className="flex flex-col space-y-4 font-sans text-base md:text-lg text-muted-foreground font-light max-w-sm mx-auto">
               <div className="flex justify-between items-center border-b border-border/40 pb-3">
-                <span>Thursday</span>
+                <span className="font-medium text-foreground/90">Thursday</span>
                 <span>1:00 PM – 9:00 PM</span>
               </div>
               <div className="flex justify-between items-center border-b border-border/40 pb-3">
-                <span>Friday</span>
+                <span className="font-medium text-foreground/90">Friday</span>
                 <span>1:00 PM – 10:00 PM</span>
               </div>
               <div className="flex justify-between items-center border-b border-border/40 pb-3">
-                <span>Saturday</span>
+                <span className="font-medium text-foreground/90">Saturday</span>
                 <span>1:00 PM – 10:00 PM</span>
               </div>
               <div className="flex justify-between items-center pb-3">
-                <span>Sunday</span>
+                <span className="font-medium text-foreground/90">Sunday</span>
                 <span>1:00 PM – 9:00 PM</span>
               </div>
             </div>
             
-            <p className="mt-8 font-sans text-xs tracking-[0.2em] uppercase text-muted-foreground/60">
-              Monday, Tuesday, Wednesday: Closed
+            <p className="mt-8 font-sans text-xs tracking-[0.2em] uppercase text-muted-foreground/70">
+              Monday – Wednesday: Closed
             </p>
+
+            <div className="mt-12 pt-10 border-t border-border/30 flex flex-col sm:flex-row items-center justify-center gap-6 text-center">
+              <div className="text-xs font-light text-muted-foreground tracking-wide">
+                <span className="block font-semibold uppercase tracking-[0.2em] text-primary text-[10px] mb-1">Location</span>
+                <span>{SITE_CONFIG.contact.address}</span>
+              </div>
+              <div className="hidden sm:block h-8 w-px bg-border/40" />
+              <div className="flex items-center gap-3">
+                <a
+                  href={SITE_CONFIG.social.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow Rahat Bakery on Instagram (opens in a new tab)"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/60 bg-white hover:border-primary/60 text-foreground/80 hover:text-primary transition-all duration-300 shadow-xs text-xs font-semibold tracking-[0.15em] uppercase group"
+                >
+                  <InstagramIcon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
+                  <span>Instagram</span>
+                </a>
+                <a
+                  href={SITE_CONFIG.social.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow Rahat Bakery on TikTok (opens in a new tab)"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/60 bg-white hover:border-primary/60 text-foreground/80 hover:text-primary transition-all duration-300 shadow-xs text-xs font-semibold tracking-[0.15em] uppercase group"
+                >
+                  <TikTokIcon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
+                  <span>TikTok</span>
+                </a>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* FEATURED PRODUCTS */}
+      {/* FEATURED SPECIALTIES */}
       <section className="py-24 md:py-32 bg-[#f9f7f4]">
         <Container>
           <div className="text-center mb-20 px-6">
-            <h2 className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-6 font-bold">Tasting Menu</h2>
-            <h3 className="font-serif text-4xl md:text-5xl text-foreground">Featured Creations</h3>
+            <p className="font-sans text-xs tracking-[0.3em] uppercase text-primary mb-6 font-bold">Our Specialties</p>
+            <h2 className="font-serif text-4xl md:text-5xl text-foreground">Featured Creations</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 px-6 lg:px-0">
-            {featuredProducts.map((product) => {
-              const imageUrl = getLocalImageOrPlaceholder('menu', product.imageFile, product.name);
-              return (
-                <div key={product.id} className="group cursor-pointer flex flex-col">
-                  <div className="aspect-[4/5] overflow-hidden mb-8 bg-muted relative">
-                    <Image 
-                      src={imageUrl} 
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105" 
-                      unoptimized={imageUrl.includes('placehold.co')}
-                    />
-                    <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6 lg:px-0">
+            {FEATURED_CATEGORIES.map((category) => (
+              <Link 
+                key={category.title} 
+                href={category.href}
+                className="group flex flex-col bg-white rounded-lg overflow-hidden border border-border/40 shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer"
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+                  <Image 
+                    src={category.image} 
+                    alt={category.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
+                  />
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+                <div className="p-6 text-center flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-serif text-2xl mb-1 text-foreground group-hover:text-primary transition-colors">
+                      {category.title}
+                    </h3>
+                    <p className="text-xs font-light text-muted-foreground tracking-wide mb-5">
+                      {category.subtitle}
+                    </p>
                   </div>
-                  <div className="text-center flex-1 flex flex-col justify-between">
-                    <h4 className="font-serif text-2xl mb-3 text-foreground/90">{product.name}</h4>
-                    <p className="text-muted-foreground font-light tracking-widest text-sm">${product.price.toFixed(2)}</p>
+                  <div className="inline-flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary group-hover:text-foreground transition-colors pt-3 border-t border-border/30">
+                    <span>View Menu</span>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
                   </div>
                 </div>
-              );
-            })}
+              </Link>
+            ))}
           </div>
           
-          <div className="mt-24 text-center">
+          <div className="mt-20 flex flex-col items-center justify-center gap-8 text-center">
             <Link 
               href="/menu" 
               className="inline-block border-b border-primary text-primary pb-2 uppercase tracking-[0.2em] text-xs font-bold hover:text-foreground hover:border-foreground transition-all duration-300"
             >
               View the Full Menu
             </Link>
+
+            <div className="pt-8 border-t border-border/30 w-full max-w-xs flex items-center justify-center gap-6">
+              <a
+                href={SITE_CONFIG.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Rahat Bakery on Instagram (opens in a new tab)"
+                className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground hover:text-primary transition-colors group py-1"
+              >
+                <InstagramIcon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                <span>Instagram</span>
+              </a>
+              <span className="text-border/60">|</span>
+              <a
+                href={SITE_CONFIG.social.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow Rahat Bakery on TikTok (opens in a new tab)"
+                className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground hover:text-primary transition-colors group py-1"
+              >
+                <TikTokIcon className="w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
+                <span>TikTok</span>
+              </a>
+            </div>
           </div>
         </Container>
       </section>
