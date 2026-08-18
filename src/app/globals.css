@@ -32,14 +32,10 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
   
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these base styles back for old behavior.
-*/
 @layer base {
   *,
   ::after,
@@ -52,58 +48,54 @@
 
 @layer base {
   :root {
-    --background: 40 33% 98%; /* Warm Off-White */
-    --foreground: 20 14% 4%; /* Deep Chocolate */
+    --background: 40 33% 98%; /* Warm Cream (#faf9f6) */
+    --foreground: 20 14% 4%; /* Deep Charcoal / Roast */
     --card: 0 0% 100%;
     --card-foreground: 20 14% 4%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14% 4%;
-    --primary: 38 92% 50%; /* Saffron / Gold */
+    --primary: 38 92% 50%; /* Saffron Gold */
     --primary-foreground: 20 14% 4%;
-    --secondary: 20 14% 15%; /* Charcoal */
+    --secondary: 20 14% 12%; /* Deep Roast Charcoal */
     --secondary-foreground: 40 33% 98%;
-    --muted: 40 20% 90%;
+    --muted: 40 20% 92%;
     --muted-foreground: 20 10% 40%;
     --accent: 38 92% 90%;
     --accent-foreground: 20 14% 4%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 40 20% 85%;
-    --input: 40 20% 85%;
+    --border: 40 20% 86%;
+    --input: 40 20% 86%;
     --ring: 38 92% 50%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 20 14% 4%;
-    --foreground: 40 33% 98%;
-    --card: 20 14% 8%;
-    --card-foreground: 40 33% 98%;
-    --popover: 20 14% 8%;
-    --popover-foreground: 40 33% 98%;
-    --primary: 38 92% 50%;
-    --primary-foreground: 20 14% 4%;
-    --secondary: 40 20% 15%;
-    --secondary-foreground: 40 33% 98%;
-    --muted: 20 14% 15%;
-    --muted-foreground: 40 20% 70%;
-    --accent: 38 92% 20%;
-    --accent-foreground: 40 33% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 33% 98%;
-    --border: 20 14% 15%;
-    --input: 20 14% 15%;
-    --ring: 38 92% 50%;
+    --radius: 0.75rem;
   }
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  *:focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.25);
+    color: hsl(var(--foreground));
+  }
+
   body {
-    @apply bg-background text-foreground antialiased font-sans;
+    @apply bg-background text-foreground antialiased font-sans text-base leading-relaxed;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+    @apply font-serif tracking-tight text-foreground;
   }
 }

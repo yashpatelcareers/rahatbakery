@@ -73,11 +73,11 @@ export function LightboxImage({ src, alt }: LightboxImageProps) {
         >
           <button 
             type="button"
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-[110] p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
+            className="absolute top-6 right-6 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 transition-all z-[110] p-2.5 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             onClick={() => setIsOpen(false)}
             aria-label="Close enlarged menu"
           >
-            <X size={48} strokeWidth={1} />
+            <X size={28} strokeWidth={1.5} />
           </button>
           
           <div className="relative w-full h-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
