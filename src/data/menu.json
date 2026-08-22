@@ -68,8 +68,9 @@
         { "name": "Chicken Spring Roll", "price": "$2.99" },
         { "name": "Chicken Samosa", "price": "$1.75" },
         { "name": "Aloo Samosa", "price": "$2.25" },
-        { "name": "Chicken Club Sandwich", "price": "$4.25" },
+        { "name": "Chicken Club Sandwich", "price": "$4.99" },
         { "name": "Chicken Shashlik", "price": "$3.99" },
+        { "name": "Lasagna", "price": "$13.99" },
         { "name": "Samosa Chat", "price": "$8.99" },
         { "name": "Chicken Drumsticks", "price": "$3.50" }
       ],

@@ -152,20 +152,44 @@ To activate live Google reviews, follow these steps:
 5. **Configure Locally (`.env.local`):**
    - Create a `.env.local` file in the project root:
      ```env
-     GOOGLE_PLACES_API_KEY=AIzaSy...your_api_key_here
-     GOOGLE_PLACE_ID=ChIJ...your_place_id_here
+     GOOGLE_PLACES_API_KEY=your_google_places_api_key_here
+     GOOGLE_PLACE_ID=your_google_place_id_here
      ```
 6. **Configure on Vercel:**
    - Go to your Vercel Project Dashboard -> **Settings > Environment Variables**.
    - Add `GOOGLE_PLACES_API_KEY` and `GOOGLE_PLACE_ID`.
    - Redeploy or trigger a new build.
 
-### Environment Variables
+### Security & Environment Variables
 
-| Variable Name | Environment | Description |
+> [!IMPORTANT]
+> **This GitHub repository is PUBLIC.**
+> Under no circumstances should real API keys, passwords, database URLs, or secret tokens ever be committed to Git.
+
+- **Server-Side Exclusivity:** All Google Places API interactions execute exclusively in server-side Next.js code (`src/lib/server/google-reviews.ts` and `src/app/api/reviews/route.ts`). The API key is NEVER passed to client components, React props, or browser bundles.
+- **Never Commit `.env.local`:** All local environment files are ignored via `.gitignore` (`.env*`, `.env.local`, `.env.*.local`).
+- **No Private Secrets in `NEXT_PUBLIC_`:** Only non-sensitive public URLs (e.g. `NEXT_PUBLIC_SITE_URL`) may use the `NEXT_PUBLIC_` prefix.
+- **Vercel Production Deployment:** Real credentials belong exclusively in **Vercel Project Settings > Environment Variables**, never in the repository.
+- **Template-Only `.env.example`:** The `.env.example` file in the repository contains only blank/placeholder variable names.
+- **Secret Rotation Protocol:** If any API key or secret is ever accidentally committed to GitHub, immediately revoke and rotate the key in the Google Cloud Console.
+
+#### Local Environment Setup Example:
+```bash
+# 1. Copy the example template
+cp .env.example .env.local
+
+# 2. Fill in your private keys in .env.local (this file is git-ignored)
+GOOGLE_PLACES_API_KEY=your_actual_google_cloud_key
+GOOGLE_PLACE_ID=your_actual_place_id
+```
+
+### Environment Variables Reference
+
+| Variable Name | Scope | Description |
 | :--- | :--- | :--- |
 | `GOOGLE_PLACES_API_KEY` | Server-Only | Google Cloud API key with Places API (New) enabled. |
 | `GOOGLE_PLACE_ID` | Server-Only | Google Place ID for Rahat Bakers and Sweets in Laurel, MD. |
+| `NEXT_PUBLIC_SITE_URL` | Public / Client | Canonical website URL (e.g., `https://rahatbakery.vercel.app`). |
 
 ### API Key Security & Cost Optimization
 - **Narrow Field Mask:** The request specifies `X-Goog-FieldMask: displayName,rating,userRatingCount,reviews,googleMapsUri` to request only needed fields and avoid unnecessary SKU charges.
