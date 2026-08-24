@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   description: "Explore photos of the storefront, atmosphere, authentic food items, traditional sweets, and featured videos at Rahat Bakery in Laurel, MD.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function GalleryPage() {
   const items = await getGalleryDataServer();
 

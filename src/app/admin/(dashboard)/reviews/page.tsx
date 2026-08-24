@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Google Reviews & Social Proof | Rahat Bakery Admin",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminReviewsPage() {
   const config = await getReviewsConfigServer();
   const effectiveData = await getEffectiveReviewsData();

@@ -30,32 +30,31 @@ export function getAdminPassword(): string {
     envPass === "your_password_here" ||
     envPass === "your_secure_admin_password_here"
   ) {
-    return "rahatadmin2026";
+    return "password";
   }
   return envPass;
 }
 
 /**
- * Creates default seed accounts if user store is empty
+ * Creates default seed accounts with PBKDF2 hashed credentials:
+ * 1. Developer / Super Admin: admin / password
+ * 2. Business Owner / Admin: rahatadmin / rahatadmin2026
  */
 function createDefaultSeedUsers(): AdminUser[] {
-  const defaultPass = getAdminPassword();
-  const envUser = getAdminUsername();
-
-  // 1. Developer / Super Admin account
+  // 1. Developer / Super Admin account (admin / password)
   const devSalt = crypto.randomBytes(16).toString("hex");
-  const devHash = crypto.pbkdf2Sync(defaultPass, devSalt, 100000, 64, "sha512").toString("hex");
+  const devHash = crypto.pbkdf2Sync("password", devSalt, 100000, 64, "sha512").toString("hex");
 
-  // 2. Business Owner / Admin account
+  // 2. Business Owner / Admin account (rahatadmin / rahatadmin2026)
   const ownerSalt = crypto.randomBytes(16).toString("hex");
-  const ownerHash = crypto.pbkdf2Sync(defaultPass, ownerSalt, 100000, 64, "sha512").toString("hex");
+  const ownerHash = crypto.pbkdf2Sync("rahatadmin2026", ownerSalt, 100000, 64, "sha512").toString("hex");
 
   const now = new Date().toISOString();
 
   return [
     {
       id: "usr-superadmin-developer",
-      username: envUser,
+      username: "admin",
       name: "Developer / Super Admin",
       role: "superadmin",
       status: "active",
@@ -66,8 +65,8 @@ function createDefaultSeedUsers(): AdminUser[] {
     },
     {
       id: "usr-admin-owner",
-      username: "owner",
-      name: "Bakery Owner",
+      username: "rahatadmin",
+      name: "Business Owner / Admin",
       role: "admin",
       status: "active",
       passwordHash: ownerHash,
@@ -79,7 +78,7 @@ function createDefaultSeedUsers(): AdminUser[] {
 }
 
 /**
- * Reads all admin users from Supabase or local fallback
+ * Reads all admin users from Supabase or local fallback, ensuring both Developer (admin) and Owner (rahatadmin) accounts exist
  */
 export async function getAdminUsersServer(): Promise<AdminUser[]> {
   const supabase = getSupabaseServerClient();
@@ -94,11 +93,48 @@ export async function getAdminUsersServer(): Promise<AdminUser[]> {
         .single();
 
       if (row?.data && Array.isArray(row.data) && row.data.length > 0) {
-        return row.data as AdminUser[];
+        let users = row.data as AdminUser[];
+        let needsResave = false;
+
+        // Clean up any legacy dummy accounts if present
+        const hasLegacyOwner = users.some((u) => u.username.toLowerCase() === "owner");
+        if (hasLegacyOwner) {
+          users = users.filter((u) => u.username.toLowerCase() !== "owner");
+          needsResave = true;
+        }
+
+        // Ensure developer / superadmin exists (admin)
+        const hasSuperAdmin = users.some(
+          (u) => u.role === "superadmin" || u.username.toLowerCase() === "admin"
+        );
+        if (!hasSuperAdmin) {
+          users.unshift(defaultUsers[0]);
+          needsResave = true;
+        }
+
+        // Ensure owner / admin exists (rahatadmin)
+        const hasOwner = users.some(
+          (u) => u.username.toLowerCase() === "rahatadmin"
+        );
+        if (!hasOwner) {
+          users.push(defaultUsers[1]);
+          needsResave = true;
+        }
+
+        if (needsResave) {
+          await supabase.from("cms_documents").upsert({
+            key: "admin_users",
+            data: users,
+            updated_at: new Date().toISOString(),
+          });
+        }
+
+        return users;
       }
 
       if (error && error.code === "PGRST116") {
         // Document does not exist — auto seed
+        console.info("[Admin Auth] Auto-seeding initial admin accounts into Supabase...");
         await supabase.from("cms_documents").upsert({
           key: "admin_users",
           data: defaultUsers,
@@ -116,7 +152,38 @@ export async function getAdminUsersServer(): Promise<AdminUser[]> {
     const raw = await fs.readFile(USERS_FILE_PATH, "utf-8");
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed as AdminUser[];
+      let users = parsed as AdminUser[];
+      let needsResave = false;
+
+      const hasLegacyOwner = users.some((u) => u.username.toLowerCase() === "owner");
+      if (hasLegacyOwner) {
+        users = users.filter((u) => u.username.toLowerCase() !== "owner");
+        needsResave = true;
+      }
+
+      const hasSuperAdmin = users.some(
+        (u) => u.role === "superadmin" || u.username.toLowerCase() === "admin"
+      );
+      if (!hasSuperAdmin) {
+        users.unshift(defaultUsers[0]);
+        needsResave = true;
+      }
+
+      const hasOwner = users.some(
+        (u) => u.username.toLowerCase() === "rahatadmin"
+      );
+      if (!hasOwner) {
+        users.push(defaultUsers[1]);
+        needsResave = true;
+      }
+
+      if (needsResave) {
+        try {
+          await fs.writeFile(USERS_FILE_PATH, JSON.stringify(users, null, 2) + "\n", "utf-8");
+        } catch {}
+      }
+
+      return users;
     }
   } catch {
     // Write default seed users to disk
@@ -159,11 +226,17 @@ export async function saveAdminUsersServer(
 
       if (dbError) {
         console.error("[Admin Auth] Supabase users save error:", dbError.message);
-        return { success: false, error: dbError.message };
+        return { success: false, error: `Supabase database error: ${dbError.message}` };
       }
     } catch (err) {
       console.error("[Admin Auth] Unexpected users save error:", err);
+      return { success: false, error: "Database error saving admin accounts." };
     }
+  } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+    return {
+      success: false,
+      error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+    };
   }
 
   // Local filesystem fallback

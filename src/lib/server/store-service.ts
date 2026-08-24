@@ -3,8 +3,7 @@ import path from "path";
 import { z } from "zod";
 import type { SiteConfig } from "@/types";
 import { computeSummaryHours } from "@/lib/utils";
-import { getSupabaseServerClient } from "@/lib/server/supabase";
-import { ensureSupabaseDocumentSeeded } from "@/lib/server/supabase-seed";
+import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
 import defaultStoreData from "@/data/store-info.json";
 
 // Central path to store information metadata JSON for local fallback
@@ -61,9 +60,31 @@ export async function getStoreInfoServer(): Promise<SiteConfig> {
 
   if (supabase) {
     try {
-      const seededData = await ensureSupabaseDocumentSeeded("store_info", defaultStoreData);
-      const validated = SiteConfigSchema.parse(seededData);
-      return validated as unknown as SiteConfig;
+      const { data: row, error } = await supabase
+        .from("cms_documents")
+        .select("data")
+        .eq("key", "store_info")
+        .single();
+
+      if (row?.data) {
+        const validated = SiteConfigSchema.parse(row.data);
+        return validated as unknown as SiteConfig;
+      }
+
+      if (error && error.code === "PGRST116") {
+        // Document does not exist — seed it
+        console.info("[Store Service] Seeding initial store_info into Supabase...");
+        await supabase.from("cms_documents").upsert({
+          key: "store_info",
+          data: defaultStoreData,
+          updated_at: new Date().toISOString(),
+        });
+        return defaultStoreData as unknown as SiteConfig;
+      }
+
+      if (error) {
+        console.error("[Store Service] Supabase read error:", error.message);
+      }
     } catch (error) {
       console.error("[Store Service] Error reading from Supabase:", error);
     }
@@ -124,6 +145,11 @@ export async function saveStoreInfoServer(
         console.error("[Store Service] Supabase save error:", dbError.message);
         return { success: false, error: `Supabase database error: ${dbError.message}` };
       }
+    } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      return {
+        success: false,
+        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+      };
     }
 
     // Also attempt local filesystem write in dev environments if writeable

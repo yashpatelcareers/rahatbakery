@@ -3,8 +3,7 @@ import path from "path";
 import { z } from "zod";
 import { getGoogleReviews } from "@/lib/server/google-reviews";
 import type { GoogleReviewsData } from "@/types";
-import { getSupabaseServerClient } from "@/lib/server/supabase";
-import { ensureSupabaseDocumentSeeded } from "@/lib/server/supabase-seed";
+import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
 import defaultReviewsConfig from "@/data/reviews-config.json";
 
 // Path to reviews configuration file for local fallback
@@ -52,9 +51,30 @@ export async function getReviewsConfigServer(): Promise<ReviewsConfig> {
 
   if (supabase) {
     try {
-      const seededData = await ensureSupabaseDocumentSeeded("reviews_config", defaultReviewsConfig);
-      const validated = ReviewsConfigSchema.parse(seededData);
-      return validated as ReviewsConfig;
+      const { data: row, error } = await supabase
+        .from("cms_documents")
+        .select("data")
+        .eq("key", "reviews_config")
+        .single();
+
+      if (row?.data) {
+        const validated = ReviewsConfigSchema.parse(row.data);
+        return validated as ReviewsConfig;
+      }
+
+      if (error && error.code === "PGRST116") {
+        console.info("[Reviews Service] Seeding initial reviews_config into Supabase...");
+        await supabase.from("cms_documents").upsert({
+          key: "reviews_config",
+          data: defaultReviewsConfig,
+          updated_at: new Date().toISOString(),
+        });
+        return defaultReviewsConfig as unknown as ReviewsConfig;
+      }
+
+      if (error) {
+        console.error("[Reviews Service] Supabase read error:", error.message);
+      }
     } catch (error) {
       console.error("[Reviews Service] Error reading from Supabase:", error);
     }
@@ -93,6 +113,11 @@ export async function saveReviewsConfigServer(
         console.error("[Reviews Service] Supabase save error:", dbError.message);
         return { success: false, error: `Supabase database error: ${dbError.message}` };
       }
+    } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      return {
+        success: false,
+        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+      };
     }
 
     // Also attempt local filesystem write in dev environments if writeable
@@ -205,7 +230,7 @@ export async function syncGoogleReviewsServer(): Promise<{
     success = true;
     source = "curated";
     message =
-      "Google API credentials unset in .env.local. Fallback reviews are active and serving customer reviews.";
+      "Google API credentials unset in environment. Fallback reviews are active and serving customer reviews.";
   } else {
     success = true;
     source = "curated";

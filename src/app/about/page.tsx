@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description: "Learn about the heritage of Rahat Bakery since 1950, our traditional South Asian recipes, and our bakery in Laurel, MD.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AboutPage() {
   const storeInfo = await getStoreInfoServer();
 

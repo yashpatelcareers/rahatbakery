@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description: "Browse Rahat Bakery's complete menu: whole cakes, pastries, biscuits, traditional mithai, savory samosas and patties, and refreshing drinks.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function MenuPage() {
   const { categories }: MenuData = await getMenuDataServer();
   const printedMenuImages = getPrintedMenuImages();

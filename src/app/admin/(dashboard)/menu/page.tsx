@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Menu Management | Rahat Bakery Admin",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminMenuPage() {
   const menuData = await getAllMenuDataServer();
 

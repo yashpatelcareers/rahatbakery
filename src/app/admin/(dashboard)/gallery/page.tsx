@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Gallery Media Management | Rahat Bakery Admin",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminGalleryPage() {
   const [items, deletedItems] = await Promise.all([
     getGalleryDataServer(),

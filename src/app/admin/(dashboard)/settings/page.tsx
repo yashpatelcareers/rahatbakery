@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Settings & System Security | Rahat Bakery Admin",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function AdminSettingsPage() {
   const health = await getSecurityHealthStatus();
 

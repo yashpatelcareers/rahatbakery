@@ -2,8 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
 import type { GalleryMediaItem } from "@/types";
-import { getSupabaseServerClient } from "@/lib/server/supabase";
-import { ensureSupabaseDocumentSeeded } from "@/lib/server/supabase-seed";
+import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
 import defaultGalleryData from "@/data/gallery.json";
 
 // Central path to gallery metadata JSON for local dev fallback
@@ -32,9 +31,31 @@ export async function getAllGalleryDataServer(): Promise<GalleryMediaItem[]> {
 
   if (supabase) {
     try {
-      const seededData = await ensureSupabaseDocumentSeeded("gallery", defaultGalleryData);
-      const validated = GalleryDataSchema.parse(seededData);
-      return validated as GalleryMediaItem[];
+      const { data: row, error } = await supabase
+        .from("cms_documents")
+        .select("data")
+        .eq("key", "gallery")
+        .single();
+
+      if (row?.data) {
+        const validated = GalleryDataSchema.parse(row.data);
+        return validated as GalleryMediaItem[];
+      }
+
+      if (error && error.code === "PGRST116") {
+        // Document does not exist — seed it
+        console.info("[Gallery Service] Seeding initial gallery into Supabase...");
+        await supabase.from("cms_documents").upsert({
+          key: "gallery",
+          data: defaultGalleryData,
+          updated_at: new Date().toISOString(),
+        });
+        return defaultGalleryData as GalleryMediaItem[];
+      }
+
+      if (error) {
+        console.error("[Gallery Service] Supabase read error:", error.message);
+      }
     } catch (error) {
       console.error("[Gallery Service] Error reading from Supabase:", error);
     }
@@ -90,6 +111,11 @@ export async function saveGalleryDataServer(
         console.error("[Gallery Service] Supabase save error:", dbError.message);
         return { success: false, error: `Supabase database error: ${dbError.message}` };
       }
+    } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      return {
+        success: false,
+        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+      };
     }
 
     // Also attempt local filesystem write in dev environments if writeable
@@ -249,11 +275,22 @@ export async function saveUploadedGalleryFile(
           };
         }
       } else {
-        console.warn("[Gallery Service] Supabase Storage upload error:", uploadError.message);
+        console.error("[Gallery Service] Supabase Storage upload error:", uploadError.message);
+        if (process.env.NODE_ENV === "production") {
+          return {
+            success: false,
+            error: `Supabase Storage upload error: ${uploadError.message}`,
+          };
+        }
       }
+    } else if (process.env.NODE_ENV === "production") {
+      return {
+        success: false,
+        error: "Persistent storage error: Supabase Storage is not connected. Please verify environment variables.",
+      };
     }
 
-    // 2. Local filesystem write fallback
+    // 2. Local filesystem write fallback for local development
     try {
       await fs.mkdir(UPLOADS_DIR, { recursive: true });
       const targetFilePath = path.join(UPLOADS_DIR, filename);

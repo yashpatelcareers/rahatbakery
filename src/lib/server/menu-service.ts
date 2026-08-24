@@ -2,8 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
 import type { MenuData, MenuItem } from "@/types";
-import { getSupabaseServerClient } from "@/lib/server/supabase";
-import { ensureSupabaseDocumentSeeded } from "@/lib/server/supabase-seed";
+import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
 import defaultMenuData from "@/data/menu.json";
 
 // Path to the central menu data file for local dev fallback
@@ -41,18 +40,40 @@ export async function getAllMenuDataServer(): Promise<MenuData> {
 
   if (supabase) {
     try {
-      const seededData = await ensureSupabaseDocumentSeeded("menu", defaultMenuData);
-      const validated = MenuDataSchema.parse(seededData);
-      return {
-        categories: validated.categories,
-        deletedItems: validated.deletedItems || [],
-      } as MenuData;
+      const { data: row, error } = await supabase
+        .from("cms_documents")
+        .select("data")
+        .eq("key", "menu")
+        .single();
+
+      if (row?.data) {
+        const validated = MenuDataSchema.parse(row.data);
+        return {
+          categories: validated.categories,
+          deletedItems: validated.deletedItems || [],
+        };
+      }
+
+      if (error && error.code === "PGRST116") {
+        // Document does not exist in Supabase — seed it
+        console.info("[Menu Service] Seeding initial menu into Supabase...");
+        await supabase.from("cms_documents").upsert({
+          key: "menu",
+          data: defaultMenuData,
+          updated_at: new Date().toISOString(),
+        });
+        return defaultMenuData as MenuData;
+      }
+
+      if (error) {
+        console.error("[Menu Service] Supabase read error:", error.message);
+      }
     } catch (error) {
       console.error("[Menu Service] Error reading from Supabase:", error);
     }
   }
 
-  // Local filesystem fallback
+  // Local filesystem fallback (used when Supabase is not configured in local development)
   try {
     const raw = await fs.readFile(MENU_FILE_PATH, "utf-8");
     const parsed = JSON.parse(raw);
@@ -60,7 +81,7 @@ export async function getAllMenuDataServer(): Promise<MenuData> {
     return {
       categories: validated.categories,
       deletedItems: validated.deletedItems || [],
-    } as MenuData;
+    };
   } catch (error) {
     console.error("[Menu Service] Error reading menu data fallback:", error);
     return {
@@ -118,6 +139,11 @@ export async function saveMenuDataServer(
         console.error("[Menu Service] Supabase save error:", dbError.message);
         return { success: false, error: `Supabase database error: ${dbError.message}` };
       }
+    } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      return {
+        success: false,
+        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+      };
     }
 
     // Also attempt local filesystem write in dev environments if writeable
