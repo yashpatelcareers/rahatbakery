@@ -12,15 +12,20 @@ function StarRating({ rating }: { rating: number }) {
   const emptyStars = Math.max(0, 5 - fullStars - (hasHalfStar ? 1 : 0));
 
   return (
-    <div className="flex items-center gap-1 text-primary text-sm sm:text-base" aria-label={`${rating} out of 5 stars`}>
+    <div
+      className="flex items-center gap-1 text-primary text-sm sm:text-base"
+      aria-label={`${rating} out of 5 stars`}
+    >
       {Array.from({ length: fullStars }).map((_, i) => (
-        <span key={`full-${i}`} className="text-primary select-none">★</span>
+        <span key={`full-${i}`} className="text-primary select-none">
+          ★
+        </span>
       ))}
-      {hasHalfStar && (
-        <span className="text-primary select-none opacity-80">★</span>
-      )}
+      {hasHalfStar && <span className="text-primary select-none opacity-80">★</span>}
       {Array.from({ length: emptyStars }).map((_, i) => (
-        <span key={`empty-${i}`} className="text-muted-foreground/30 select-none">★</span>
+        <span key={`empty-${i}`} className="text-muted-foreground/30 select-none">
+          ★
+        </span>
       ))}
     </div>
   );
@@ -50,46 +55,73 @@ function GoogleLogoIcon({ className = "w-4 h-4" }: { className?: string }) {
 }
 
 export function GoogleReviewsSection({ initialData }: GoogleReviewsSectionProps) {
-  const { rating, userRatingCount, reviews, googleMapsUri, isConfigured } = initialData;
-  const hasLiveReviews = isConfigured && reviews.length > 0;
+  const { rating, userRatingCount, reviews, googleMapsUri, isConfigured, source } = initialData;
+  const isLive = source === "live" && isConfigured && reviews.length > 0;
+  const hasReviews = reviews && reviews.length > 0;
 
   return (
-    <section className="py-20 md:py-28 bg-[#faf9f6] border-t border-border/30" aria-label="Customer Reviews">
+    <section
+      className="py-20 md:py-28 bg-[#faf9f6] border-t border-border/30"
+      aria-label="Customer Reviews"
+    >
       <Container>
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-14 md:mb-18 px-4 sm:px-6">
           <p className="font-sans text-[10px] sm:text-xs tracking-[0.35em] uppercase text-primary mb-3 font-bold">
-            What Our Customers Say
+            {isLive ? "Live Customer Feedback" : "What Our Customers Say"}
           </p>
           <h2 className="font-serif text-4xl sm:text-5xl text-foreground tracking-tight mb-4">
-            Google Reviews
+            {isLive ? "Google Reviews" : "Customer Reviews & Highlights"}
           </h2>
 
           {/* Rating Summary Badge */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mt-6">
-            {rating > 0 && (
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-border/40 shadow-2xs">
-                <span className="font-serif font-bold text-xl text-foreground leading-none">
-                  {rating.toFixed(1)}
-                </span>
-                <StarRating rating={rating} />
+            {isLive ? (
+              <>
+                {rating > 0 && (
+                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-border/40 shadow-2xs">
+                    <span className="font-serif font-bold text-xl text-foreground leading-none">
+                      {rating.toFixed(1)}
+                    </span>
+                    <StarRating rating={rating} />
+                  </div>
+                )}
+                <div className="flex items-center gap-2 text-xs font-medium text-foreground/80 tracking-wide">
+                  <GoogleLogoIcon className="w-4 h-4" />
+                  <span>
+                    {userRatingCount > 0
+                      ? `Based on ${userRatingCount} Live Google Reviews`
+                      : "Google Customer Reviews"}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col sm:flex-row items-center gap-3">
+                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-border/40 shadow-2xs">
+                  <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                    Community Highlights
+                  </span>
+                  <StarRating rating={5} />
+                </div>
+                <a
+                  href={googleMapsUri}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground/80 hover:text-primary transition-colors py-1"
+                >
+                  <GoogleLogoIcon className="w-3.5 h-3.5" />
+                  <span>View Official Google Rating & 200+ Reviews on Maps</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
               </div>
             )}
-            <div className="flex items-center gap-2 text-xs font-medium text-foreground/80 tracking-wide">
-              <GoogleLogoIcon className="w-4 h-4" />
-              <span>
-                {userRatingCount > 0
-                  ? `Based on ${userRatingCount} Google Reviews`
-                  : "Google Customer Reviews"}
-              </span>
-            </div>
           </div>
 
           <div className="w-12 h-px bg-primary/50 mx-auto mt-6" />
         </div>
 
         {/* Reviews Showcase Grid */}
-        {hasLiveReviews ? (
+        {hasReviews ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-0">
             {reviews.map((review: GoogleReviewItem) => (
               <div
@@ -135,7 +167,7 @@ export function GoogleReviewsSection({ initialData }: GoogleReviewsSectionProps)
                         {review.authorName}
                       </p>
                       <p className="text-[10px] text-muted-foreground font-sans tracking-wide">
-                        Verified Google User
+                        {isLive ? "Verified Google Review" : "Customer Highlight"}
                       </p>
                     </div>
                   </div>
@@ -146,9 +178,9 @@ export function GoogleReviewsSection({ initialData }: GoogleReviewsSectionProps)
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-primary hover:text-foreground font-semibold tracking-wider transition-colors inline-flex items-center gap-1 shrink-0"
-                      aria-label={`View ${review.authorName}'s review on Google Maps (opens in new tab)`}
+                      aria-label={`View on Google Maps (opens in new tab)`}
                     >
-                      <span>View</span>
+                      <span>Maps</span>
                       <span aria-hidden="true">&rarr;</span>
                     </a>
                   )}
@@ -157,7 +189,7 @@ export function GoogleReviewsSection({ initialData }: GoogleReviewsSectionProps)
             ))}
           </div>
         ) : (
-          /* Graceful Fallback Card when API is not configured or in fallback state */
+          /* Fallback Card if 0 reviews exist */
           <div className="max-w-2xl mx-auto px-4 sm:px-6">
             <div className="bg-white p-8 sm:p-12 rounded-2xl border border-border/35 shadow-xs text-center">
               <div className="flex justify-center mb-4">
@@ -183,20 +215,22 @@ export function GoogleReviewsSection({ initialData }: GoogleReviewsSectionProps)
         )}
 
         {/* Attribution & Read All Reviews CTA */}
-        <div className="mt-14 flex flex-col items-center justify-center text-center space-y-4 px-4">
+        <div className="mt-14 flex flex-col items-center justify-center text-center space-y-3 px-4">
           <a
             href={googleMapsUri}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border-b-2 border-primary text-primary pb-1.5 uppercase tracking-[0.2em] text-xs font-bold hover:text-foreground hover:border-foreground transition-all duration-300"
+            className="inline-flex items-center gap-2 border-b-2 border-primary text-primary pb-1 uppercase tracking-[0.2em] text-xs font-bold hover:text-foreground hover:border-foreground transition-all duration-300"
             aria-label="Read all customer reviews on Google Maps (opens in new tab)"
           >
-            <span>Read All Reviews on Google</span>
+            <span>Read All 200+ Reviews on Google Maps</span>
             <span aria-hidden="true">&rarr;</span>
           </a>
 
-          <p className="text-[10px] sm:text-xs text-muted-foreground font-sans tracking-wide max-w-md">
-            Reviews are displayed using Google&apos;s default relevance ordering. Powered by Google Places.
+          <p className="text-[10px] sm:text-xs text-muted-foreground font-sans tracking-wide max-w-lg">
+            {isLive
+              ? "Live reviews are retrieved via Google Places API. Powered by Google."
+              : "Highlighted testimonials are selected customer feedback. For official Google ratings and 200+ verified reviews, visit our Google Maps page."}
           </p>
         </div>
       </Container>

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { SITE_CONFIG } from "@/lib/constants";
 import { getHeroImage } from "@/lib/images";
-import { getGoogleReviews } from "@/lib/server/google-reviews";
+import { getEffectiveReviewsData } from "@/lib/server/reviews-service";
 import { GoogleReviewsSection } from "@/components/home/google-reviews-section";
 
 const PROMOTIONAL_ITEMS = [
@@ -39,7 +39,7 @@ const PROMOTIONAL_ITEMS = [
 
 export default async function Home() {
   const heroImage = getHeroImage();
-  const reviewsData = await getGoogleReviews();
+  const reviewsData = await getEffectiveReviewsData();
 
   return (
     <main className="flex-1 flex flex-col">
@@ -111,14 +111,19 @@ export default async function Home() {
               </h2>
               
               <div className="flex flex-col space-y-4 font-sans text-sm sm:text-base text-foreground/80 font-light">
-                <div className="flex justify-between items-center border-b border-border/40 pb-3">
-                  <span className="font-medium text-foreground">Sunday – Thursday</span>
-                  <span className="font-semibold text-primary">1:00 PM – 9:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center pb-1">
-                  <span className="font-medium text-foreground">Friday – Saturday</span>
-                  <span className="font-semibold text-primary">1:00 PM – 10:00 PM</span>
-                </div>
+                {SITE_CONFIG.hours.map((schedule, idx) => (
+                  <div
+                    key={idx}
+                    className={`flex justify-between items-center ${
+                      idx < SITE_CONFIG.hours.length - 1
+                        ? "border-b border-border/40 pb-3"
+                        : "pb-1"
+                    }`}
+                  >
+                    <span className="font-medium text-foreground">{schedule.day}</span>
+                    <span className="font-semibold text-primary">{schedule.hours}</span>
+                  </div>
+                ))}
               </div>
 
               <div className="mt-8 pt-6 border-t border-border/40 text-center">

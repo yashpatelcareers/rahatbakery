@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
-import menuJson from "@/data/menu.json";
+import { getMenuDataServer } from "@/lib/server/menu-service";
 import type { MenuData } from "@/types";
 import { getLocalImageOrPlaceholder, getPrintedMenuImages } from "@/lib/images";
 import { LightboxImage } from "@/components/ui/lightbox-image";
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description: "Browse Rahat Bakery's complete menu: whole cakes, pastries, biscuits, traditional mithai, savory samosas and patties, and refreshing drinks.",
 };
 
-export default function MenuPage() {
-  const { categories }: MenuData = menuJson as MenuData;
+export default async function MenuPage() {
+  const { categories }: MenuData = await getMenuDataServer();
   const printedMenuImages = getPrintedMenuImages();
 
   return (

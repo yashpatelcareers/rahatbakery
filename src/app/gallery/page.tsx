@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { GalleryGrid } from "@/components/gallery/gallery-grid";
-import type { GalleryMediaItem } from "@/types";
-import galleryData from "@/data/gallery.json";
+import { getGalleryDataServer } from "@/lib/server/gallery-service";
 
 export const metadata: Metadata = {
   title: "Gallery | A Glimpse Inside Rahat Bakery",
   description: "Explore photos of the storefront, atmosphere, authentic food items, traditional sweets, and featured videos at Rahat Bakery in Laurel, MD.",
 };
 
-export default function GalleryPage() {
-  const items = galleryData as GalleryMediaItem[];
+export default async function GalleryPage() {
+  const items = await getGalleryDataServer();
 
   return (
     <main className="flex-1 bg-[#faf9f6]">

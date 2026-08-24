@@ -1,0 +1,36 @@
+{
+  "mode": "auto",
+  "curatedRating": 5.0,
+  "curatedTotalCount": 3,
+  "lastSyncTime": "2026-08-24T03:00:00.000Z",
+  "cachedPlaceName": "Rahat Bakers and Sweets",
+  "cachedRating": 0,
+  "cachedUserRatingCount": 0,
+  "googleMapsUri": "https://maps.google.com/?q=Rahat+Bakers+and+Sweets+13919+Baltimore+Ave+Laurel+MD+20707",
+  "curatedReviews": [
+    {
+      "id": "curated-1",
+      "authorName": "Ayesha Khan",
+      "rating": 5,
+      "text": "The freshest Mithai and custom cakes in the DMV area! Their Gulab Jamun and Pineapple cake taste just like the legendary bakery in Pakistan. Highly recommend visiting!",
+      "relativeTime": "1 week ago",
+      "googleMapsUri": "https://maps.google.com/?q=Rahat+Bakers+and+Sweets+13919+Baltimore+Ave+Laurel+MD+20707"
+    },
+    {
+      "id": "curated-2",
+      "authorName": "Tariq Mahmood",
+      "rating": 5,
+      "text": "Authentic taste, exceptional quality, and wonderful customer service. The chicken patties and zeera biscuits are a weekend staple in our household.",
+      "relativeTime": "2 weeks ago",
+      "googleMapsUri": "https://maps.google.com/?q=Rahat+Bakers+and+Sweets+13919+Baltimore+Ave+Laurel+MD+20707"
+    },
+    {
+      "id": "curated-3",
+      "authorName": "Sarah Jenkins",
+      "rating": 5,
+      "text": "Stopped by while in Laurel and was blown away by the pastries and mango lassi. Everything is made with love and traditional craftsmanship.",
+      "relativeTime": "a month ago",
+      "googleMapsUri": "https://maps.google.com/?q=Rahat+Bakers+and+Sweets+13919+Baltimore+Ave+Laurel+MD+20707"
+    }
+  ]
+}

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
-import { SITE_CONFIG } from "@/lib/constants";
+import { getStoreInfoServer } from "@/lib/server/store-service";
 
 export const metadata: Metadata = {
   title: "Our Story & Heritage",
   description: "Learn about the heritage of Rahat Bakery since 1950, our traditional South Asian recipes, and our bakery in Laurel, MD.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const storeInfo = await getStoreInfoServer();
+
   return (
     <main className="flex-1 bg-[#faf9f6]">
       {/* Header */}
@@ -62,7 +64,7 @@ export default function AboutPage() {
                     Location
                   </h3>
                   <p className="font-light text-base sm:text-lg text-foreground/90 leading-relaxed">
-                    {SITE_CONFIG.contact.address}
+                    {storeInfo.contact.address}
                   </p>
                 </div>
                 
@@ -71,7 +73,7 @@ export default function AboutPage() {
                     Opening Hours
                   </h3>
                   <ul className="space-y-3 font-light text-sm sm:text-base text-foreground/80">
-                    {SITE_CONFIG.hours.map((h, i) => (
+                    {storeInfo.hours.map((h, i) => (
                       <li key={i} className="flex justify-between border-b border-border/40 pb-2.5">
                         <span className="font-medium text-foreground">{h.day}</span>
                         <span className="font-semibold text-primary">{h.hours}</span>
@@ -85,8 +87,8 @@ export default function AboutPage() {
                     Phone
                   </h3>
                   <p className="font-light text-base sm:text-lg text-foreground/90">
-                    <a href={`tel:${SITE_CONFIG.contact.phone}`} className="hover:text-primary transition-colors">
-                      {SITE_CONFIG.contact.phone}
+                    <a href={`tel:${storeInfo.contact.phone}`} className="hover:text-primary transition-colors">
+                      {storeInfo.contact.phone}
                     </a>
                   </p>
                 </div>
@@ -97,7 +99,7 @@ export default function AboutPage() {
                   </h3>
                   <div className="flex flex-col space-y-2">
                     <a 
-                      href={SITE_CONFIG.social.instagram} 
+                      href={storeInfo.social.instagram} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="inline-flex items-center gap-2 font-light text-sm sm:text-base text-foreground/80 hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-0.5 w-fit"
@@ -106,7 +108,7 @@ export default function AboutPage() {
                       <span aria-hidden="true">&rarr;</span>
                     </a>
                     <a 
-                      href={SITE_CONFIG.social.tiktok} 
+                      href={storeInfo.social.tiktok} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="inline-flex items-center gap-2 font-light text-sm sm:text-base text-foreground/80 hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-0.5 w-fit"
@@ -119,33 +121,6 @@ export default function AboutPage() {
               </div>
             </div>
 
-          </div>
-        </Container>
-      </section>
-
-      {/* Google Maps Section */}
-      <section className="py-20 md:py-28 bg-background border-t border-border/40">
-        <Container>
-          <div className="max-w-3xl mx-auto text-center mb-12 px-6">
-            <h2 className="font-sans text-[10px] sm:text-xs tracking-[0.4em] uppercase text-primary mb-4 font-bold">
-              Find Our Bakery
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
-              Find Rahat Bakery in Laurel, Maryland and stop by for authentic South Asian sweets, fresh bakery items, cakes, pastries, and traditional mithai.
-            </p>
-          </div>
-          
-          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-0">
-            <div className="w-full rounded-2xl overflow-hidden shadow-md border border-border/40 bg-muted">
-              <iframe 
-                src="https://maps.google.com/maps?q=Rahat%20Bakers%20and%20Sweets,%2013919%20Baltimore%20Ave,%20Laurel,%20MD%2020707&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                className="w-full h-[320px] sm:h-[400px] lg:h-[480px] border-0 block" 
-                allowFullScreen={true} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Rahat Bakery Google Maps Location"
-              />
-            </div>
           </div>
         </Container>
       </section>

@@ -41,6 +41,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 !.env.example
+src/data/admin-security.json
+src/data/admin-users.json
+src/data/admin-audit.json
 
 # vercel
 .vercel
