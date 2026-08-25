@@ -3,7 +3,7 @@ import path from "path";
 import { z } from "zod";
 import type { SiteConfig } from "@/types";
 import { computeSummaryHours } from "@/lib/utils";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
+import { getSupabaseServerClient, isSupabaseConfigured, getSupabaseDiagnostics } from "@/lib/server/supabase";
 import defaultStoreData from "@/data/store-info.json";
 
 // Central path to store information metadata JSON for local fallback
@@ -142,13 +142,15 @@ export async function saveStoreInfoServer(
       });
 
       if (dbError) {
-        console.error("[Store Service] Supabase save error:", dbError.message);
-        return { success: false, error: `Supabase database error: ${dbError.message}` };
+        console.error("[Store Service] Supabase save error:", dbError);
+        const details = dbError.details ? ` (${dbError.details})` : "";
+        return { success: false, error: `Supabase database error: ${dbError.message}${details}` };
       }
     } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      const diag = getSupabaseDiagnostics();
       return {
         success: false,
-        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+        error: `Persistent database error: ${diag.statusMessage}`,
       };
     }
 

@@ -2,7 +2,7 @@ import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 import { cookies } from "next/headers";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
+import { getSupabaseServerClient, isSupabaseConfigured, getSupabaseDiagnostics } from "@/lib/server/supabase";
 import type { AdminUser, AdminRole, AdminUserStatus, AuditLogEntry } from "@/types";
 
 export const ADMIN_COOKIE_NAME = "rahat_admin_session";
@@ -225,17 +225,19 @@ export async function saveAdminUsersServer(
       });
 
       if (dbError) {
-        console.error("[Admin Auth] Supabase users save error:", dbError.message);
-        return { success: false, error: `Supabase database error: ${dbError.message}` };
+        console.error("[Admin Auth] Supabase users save error:", dbError);
+        const details = dbError.details ? ` (${dbError.details})` : "";
+        return { success: false, error: `Supabase database error: ${dbError.message}${details}` };
       }
     } catch (err) {
       console.error("[Admin Auth] Unexpected users save error:", err);
       return { success: false, error: "Database error saving admin accounts." };
     }
   } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+    const diag = getSupabaseDiagnostics();
     return {
       success: false,
-      error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+      error: `Persistent database error: ${diag.statusMessage}`,
     };
   }
 

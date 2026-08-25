@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
 import type { GalleryMediaItem } from "@/types";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
+import { getSupabaseServerClient, isSupabaseConfigured, getSupabaseDiagnostics } from "@/lib/server/supabase";
 import defaultGalleryData from "@/data/gallery.json";
 
 // Central path to gallery metadata JSON for local dev fallback
@@ -108,13 +108,15 @@ export async function saveGalleryDataServer(
       });
 
       if (dbError) {
-        console.error("[Gallery Service] Supabase save error:", dbError.message);
-        return { success: false, error: `Supabase database error: ${dbError.message}` };
+        console.error("[Gallery Service] Supabase save error:", dbError);
+        const details = dbError.details ? ` (${dbError.details})` : "";
+        return { success: false, error: `Supabase database error: ${dbError.message}${details}` };
       }
     } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      const diag = getSupabaseDiagnostics();
       return {
         success: false,
-        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+        error: `Persistent database error: ${diag.statusMessage}`,
       };
     }
 

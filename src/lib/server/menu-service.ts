@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
 import type { MenuData, MenuItem } from "@/types";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
+import { getSupabaseServerClient, isSupabaseConfigured, getSupabaseDiagnostics } from "@/lib/server/supabase";
 import defaultMenuData from "@/data/menu.json";
 
 // Path to the central menu data file for local dev fallback
@@ -136,13 +136,15 @@ export async function saveMenuDataServer(
       });
 
       if (dbError) {
-        console.error("[Menu Service] Supabase save error:", dbError.message);
-        return { success: false, error: `Supabase database error: ${dbError.message}` };
+        console.error("[Menu Service] Supabase save error:", dbError);
+        const details = dbError.details ? ` (${dbError.details})` : "";
+        return { success: false, error: `Supabase database error: ${dbError.message}${details}` };
       }
     } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      const diag = getSupabaseDiagnostics();
       return {
         success: false,
-        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+        error: `Persistent database error: ${diag.statusMessage}`,
       };
     }
 

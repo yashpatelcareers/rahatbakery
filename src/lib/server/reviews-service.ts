@@ -3,7 +3,7 @@ import path from "path";
 import { z } from "zod";
 import { getGoogleReviews } from "@/lib/server/google-reviews";
 import type { GoogleReviewsData } from "@/types";
-import { getSupabaseServerClient, isSupabaseConfigured } from "@/lib/server/supabase";
+import { getSupabaseServerClient, isSupabaseConfigured, getSupabaseDiagnostics } from "@/lib/server/supabase";
 import defaultReviewsConfig from "@/data/reviews-config.json";
 
 // Path to reviews configuration file for local fallback
@@ -110,13 +110,15 @@ export async function saveReviewsConfigServer(
       });
 
       if (dbError) {
-        console.error("[Reviews Service] Supabase save error:", dbError.message);
-        return { success: false, error: `Supabase database error: ${dbError.message}` };
+        console.error("[Reviews Service] Supabase save error:", dbError);
+        const details = dbError.details ? ` (${dbError.details})` : "";
+        return { success: false, error: `Supabase database error: ${dbError.message}${details}` };
       }
     } else if (process.env.NODE_ENV === "production" || isSupabaseConfigured()) {
+      const diag = getSupabaseDiagnostics();
       return {
         success: false,
-        error: "Persistent database error: Supabase is not connected. Please verify environment variables.",
+        error: `Persistent database error: ${diag.statusMessage}`,
       };
     }
 
