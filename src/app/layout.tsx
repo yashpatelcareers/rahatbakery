@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -55,6 +56,10 @@ export default function RootLayout({
         >
           <SiteLayout>{children}</SiteLayout>
         </ThemeProvider>
+        <Script
+          src="https://inkindscript.com/inkind.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
